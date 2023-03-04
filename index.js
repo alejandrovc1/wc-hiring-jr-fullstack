@@ -34,10 +34,73 @@ import $t from './libs/test.js'
     Lodash(https://lodash.com/docs) modules.
 */
 import _ from 'lodash'
+
 const source = $t.source(1)
+
+var balance = 0, income = 0, expenses = 0, Restaurants = 0, Income = 0, Groceries = 0, Rent = 0;
+
 $t.answer(1, async () => {
-  // Your code goes here
-  return 
+  for (let i = 0; i < source.length; i++) {
+
+    switch (source[i].category) {
+      case 'Restaurants':
+        if (source[i].type == 'expense') {
+          expenses = expenses + source[i].amount;
+          Restaurants = Restaurants - (source[i].amount);
+        } else {
+          income = income + source[i].amount;
+          Restaurants = Restaurants + (source[i].amount);
+        }
+        break;
+
+      case 'Income':
+        if (source[i].type == 'expense') {
+          expenses = expenses + source[i].amount;
+          Income = Income - (source[i].amount);
+        } else {
+          income = income + source[i].amount;
+          Income = Income + (source[i].amount);
+        }
+        break;
+
+      case 'Groceries':
+        if (source[i].type == 'expense') {
+          expenses = expenses + source[i].amount;
+          Groceries = Groceries - (source[i].amount);
+        } else {
+          income = income + source[i].amount;
+          Groceries = Groceries + (source[i].amount);
+        }
+        break;
+
+      case 'Rent':
+        if (source[i].type == 'expense') {
+          expenses = expenses + source[i].amount;
+          Rent = Rent - (source[i].amount);
+
+        } else {
+          income = income + source[i].amount;
+          Rent = Rent + (source[i].amount);
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+  balance = income - expenses;
+  const TargetData = {
+    balance: balance,
+    income: income,
+    expenses: expenses,
+    byCategories: {
+      Restaurants: Restaurants,
+      Income: Income,
+      Groceries: Groceries,
+      Rent: Rent
+    }
+  }
+  return TargetData;
 })
 
 /*
@@ -49,9 +112,12 @@ $t.answer(1, async () => {
 */
 const $source = $t.source(2)
 $t.answer(2, async () => {
-    // Your code goes here:
-    // 1. Get ids: $source.getIds()
-    // 2. Get text for every id: $source.getText(id)
-    // 3. Return array of texts
-    return 
+  // Your code goes here:
+  // 1. Get ids: $source.getIds()
+  // 2. Get text for every id: $source.getText(id)
+  // 3. Return array of texts
+  const ids = $source.getIds();
+  const texts = $source.getText(ids)
+  const answer = $source.getAnswer(texts)
+  return answer;
 })
